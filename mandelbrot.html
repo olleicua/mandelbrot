@@ -9,13 +9,63 @@
     background-color: #94b; color: #fff; display: inline-block;
   }
   </style>
-  <script>
-    // LOL hack. TODO parse the query string to determine argv[2] and argv[3].
-    var process = {
-      argv: [0, 0, '0 + 0i', '2'],
-      stdout: { write: function(x) { document.write(x); }
-    }};
-  </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 </head>
-<body><pre><script src="mandelbrot.js"></script></pre></body>
+<body>
+center: <input class="center" type="text"/><br />
+range: <input class="range" type="text"/><br />
+
+<script>
+  var process = {
+    argv: ['node', 'mandelbrot.js', '0 + 0i', '2'],
+    stdout: { write: function(x) { $('pre').append(x); } }
+  };
+  
+  if (m = /\?center=([^&]*)&range=(.*)$/.exec(window.location.href)) {
+    process.argv[2] = decodeURIComponent(m[1]);
+    process.argv[3] = decodeURIComponent(m[2]);
+    $('.center').val(decodeURIComponent(m[1]));
+    $('.range').val(decodeURIComponent(m[2]));
+  }
+  
+  $('.center, .range').change(function() {
+    window.location.href = '?center=' + encodeURIComponent($('.center').val()) + '&range=' + encodeURIComponent($('.range').val());
+  });
+  
+  $(document).keypress(function(e) {
+    switch (e.charCode) {
+    case 113 : // q
+      $('.range').val(parseFloat($('.range').val()) * (4/3));
+      $('.range').trigger('change');
+      break;
+    case 119 : // w
+      var z = parse_z($('.center').val());
+      $('.center').val(z[0] + ' + ' + (z[1] + step) + 'i');
+      $('.center').trigger('change');
+      break;
+    case 101 : // e
+      $('.range').val(parseFloat($('.range').val()) * (2/3));
+      $('.range').trigger('change');
+      break;
+    case 97 : // a
+      var z = parse_z($('.center').val());
+      $('.center').val((z[0] - step) + ' + ' + z[1] + 'i');
+      $('.center').trigger('change');
+      break;
+    case 115 : // s
+      var z = parse_z($('.center').val());
+      $('.center').val(z[0] + ' + ' + (z[1] - step) + 'i');
+      $('.center').trigger('change');
+      break;
+    case 100 : // d
+      var z = parse_z($('.center').val());
+      $('.center').val((z[0] + step) + ' + ' + z[1] + 'i');
+      $('.center').trigger('change');
+      break;
+    }
+  });
+</script>
+
+<pre><script type="text/javascript" src="mandelbrot.js"></script></pre>
+</body>
 </html>
