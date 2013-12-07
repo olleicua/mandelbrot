@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Mandelbrot</title>
+  <style>
+  pre {
+    font-family: "Courier New"; line-height: 16px; font-size: 13px;
+    background-color: #94b; color: #fff; display: inline-block;
+  }
+  </style>
+  <script>
+    // LOL hack. TODO parse the query string to determine argv[2] and argv[3].
+    var process = {
+      argv: [0, 0, '0 + 0i', '2'],
+      stdout: { write: function(x) { document.write(x); }
+    }};
+  </script>
+</head>
+<body><pre><script src="mandelbrot.js"></script></pre></body>
+</html>
