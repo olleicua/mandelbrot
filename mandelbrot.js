@@ -9,7 +9,7 @@ var square = function(a) {
 };
 
 var less_than_2 = function(a) {
-  return ((a[0] * a[0]) - (a[1] * a[1])) <= 4;
+  return ((a[0] * a[0]) + (a[1] * a[1])) <= 4;
 };
 
 var parse_z = function(z) {
