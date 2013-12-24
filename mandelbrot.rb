@@ -1,3 +1,5 @@
+require 'terminfo'
+
 $range = 2
 $real = 0
 $imaginary = 0
@@ -16,8 +18,11 @@ def move x, y
 end
 
 loop do
-  puts "node mandelbrot-color-shell.js #{$real}+#{$imaginary}i #{$range}"
-  puts `node mandelbrot-color-shell.js #{$real}+#{$imaginary}i #{$range}`
+  h, w = TermInfo.screen_size
+  w -= 2
+  h -= 7
+  puts "WIDTH=#{w} HEIGHT=#{h} node mandelbrot-color-shell.js #{$real}+#{$imaginary}i #{$range}"
+  puts `WIDTH=#{w} HEIGHT=#{h} node mandelbrot-color-shell.js #{$real}+#{$imaginary}i #{$range}`
   puts '(controls):'
   puts ' w,a,s,d: move; W,A,S,D: move faster'
   puts ' z,x: zoom in/out; Z,X: zoom in/out faster'

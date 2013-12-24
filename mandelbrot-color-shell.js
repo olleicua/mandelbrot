@@ -1,4 +1,5 @@
-var SIZE = 66;
+var WIDTH = parseFloat(process.env.WIDTH) || 66;
+var HEIGHT = parseFloat(process.env.HEIGHT) || 66;
 
 var plus = function(a, b) {
   return [a[0] + b[0], a[1] + b[1]];
@@ -47,7 +48,8 @@ var iter = function(n, c) {
 
 var center = parse_z(process.argv[2]);
 var range = parseFloat(process.argv[3]);
-var step = range * 2 / SIZE;
+var step_x = range * 2 / WIDTH;
+var step_y = range * 2 / HEIGHT;
 var gradient = -5.5 * Math.log(range);
 var precision = gradient + 20;
 
@@ -60,11 +62,11 @@ var mandelbrot = function(c, n, ch) {
   }
 };
 
-for (var i = center[1] + range; i > center[1] - range; i -= step) {
-  for (var r = center[0] - range; r < center[0] + range; r += step) {
+for (var i = center[1] + range; i > center[1] - range; i -= step_y) {
+  for (var r = center[0] - range; r < center[0] + range; r += step_x) {
     if (center[1] < i && center[0] < r &&
-        Math.abs(center[1] - i) < step &&
-        Math.abs(center[0] - r) < step) {
+        Math.abs(center[1] - i) < step_y &&
+        Math.abs(center[0] - r) < step_x) {
       process.stdout.write(mandelbrot([r, i], precision, '█'));
     } else {
       process.stdout.write(mandelbrot([r, i], precision, '▒'));
