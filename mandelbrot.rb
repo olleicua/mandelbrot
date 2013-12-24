@@ -19,8 +19,9 @@ loop do
   puts "node mandelbrot-color-shell.js #{$real}+#{$imaginary}i #{$range}"
   puts `node mandelbrot-color-shell.js #{$real}+#{$imaginary}i #{$range}`
   system('stty raw -echo')
-  inp = STDIN.getc.chomp
+  ch = STDIN.getc
   system('stty -raw echo')
+  inp = if ch.kind_of? Integer then ch.chr else ch.chomp end
   case inp
   when 'w' then move(0, 1)
   when 's' then move(0, -1)
