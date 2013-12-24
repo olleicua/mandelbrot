@@ -54,7 +54,7 @@ var precision = gradient + 20;
 var mandelbrot = function(c, n, ch) {
   var res = iter(n, c);
   if (res === null) {
-    return '[38;5;15m' + ch + '[0m';
+    return '[38;5;201m' + ch + '[0m';
   } else {
     return '[38;5;' + color(res, precision) + 'm' + ch + '[0m';
   }
@@ -65,10 +65,11 @@ for (var i = center[1] + range; i > center[1] - range; i -= step) {
     if (center[1] < i && center[0] < r &&
         Math.abs(center[1] - i) < step &&
         Math.abs(center[0] - r) < step) {
-      process.stdout.write(mandelbrot([r, i], precision, '▒'));
-    } else {
       process.stdout.write(mandelbrot([r, i], precision, '█'));
+    } else {
+      process.stdout.write(mandelbrot([r, i], precision, '▒'));
     }
   }
   process.stdout.write("\n");
 }
+
